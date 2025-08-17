@@ -9,14 +9,12 @@ import {
   Heart,
   ShoppingCart,
   Star,
-  ArrowLeft,
   Shield,
   Truck,
   RefreshCw,
   CreditCard,
   Lock,
   CheckCircle,
-  Gift,
   Percent,
 } from "lucide-react";
 
@@ -31,7 +29,7 @@ export default function ShoppingCartPage() {
 
   // Calculate cart totals
   const subtotal = cart.reduce(
-    (total, item) => total + item.price * item.quantity,
+    (total, item) => total + (item.price || 0) * (item.quantity || 1),
     0
   );
   const tax = subtotal * 0.08; // Assuming 8% tax
@@ -44,13 +42,6 @@ export default function ShoppingCartPage() {
   const promoDiscountAmount = subtotal * (promoDiscount / 100);
   const discountedSubtotal = subtotal - promoDiscountAmount;
 
-  // Handle quantity updates
-  // const handleQuantityChange = (itemId) => {
-  //   if (itemId.length >= 1) {
-  //     incrementQuantity(itemiD);
-  //   }
-  // };
-
   const handleItemIncrement = (item) => {
     incrementQuantity(item.id, item.color);
   };
@@ -59,14 +50,14 @@ export default function ShoppingCartPage() {
     decrementQuantity(item.id, item.color);
   };
 
-  // Handle item removal
   const handleRemoveItem = (itemId, itemColor) => {
     removeFromCart(itemId, itemColor);
   };
+
   const renderStars = (rating) => {
     const stars = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
+    const fullStars = Math.floor(rating || 0);
+    const hasHalfStar = (rating || 0) % 1 !== 0;
 
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
@@ -86,6 +77,7 @@ export default function ShoppingCartPage() {
     }
     return stars;
   };
+
   const handlePromoCode = () => {
     if (promoCode.toLowerCase() === "save10") {
       setPromoApplied(true);
@@ -148,8 +140,6 @@ export default function ShoppingCartPage() {
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Navbar />
 
-      {/* Header */}
-
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {cart.length === 0 ? (
           <div className="text-center py-16 bg-white rounded-xl shadow-sm">
@@ -181,7 +171,7 @@ export default function ShoppingCartPage() {
                 <div className="divide-y divide-gray-200">
                   {cart.map((item) => (
                     <div
-                      key={`${item.id}-${item.color}`}
+                      key={`${item.id}-${item.color || "default"}`}
                       className="p-6 hover:bg-gray-50 transition"
                     >
                       <div className="flex items-start space-x-4">
@@ -201,12 +191,14 @@ export default function ShoppingCartPage() {
                               <h3 className="font-semibold text-lg text-gray-900 mb-1">
                                 {item.name}
                               </h3>
-                              <p className="text-sm text-gray-600 mb-2">
-                                {item.brand}
-                              </p>
+                              {item.brand && (
+                                <p className="text-sm text-gray-600 mb-2">
+                                  {item.brand}
+                                </p>
+                              )}
                               <div className="flex items-center gap-4 text-sm text-gray-600">
-                                <span>Color: {item.color}</span>
-                                <span>Size: {item.size}</span>
+                                {item.color && <span>Color: {item.color}</span>}
+                                {item.size && <span>Size: {item.size}</span>}
                               </div>
                             </div>
                             <button
@@ -223,9 +215,12 @@ export default function ShoppingCartPage() {
                           {/* Price and Quantity */}
                           <div className="flex items-center justify-between mt-4">
                             <div className="text-xl font-bold text-gray-900">
-                              ${(item.price * item.quantity).toFixed(2)}
+                              $
+                              {(
+                                (item.price || 0) * (item.quantity || 1)
+                              ).toFixed(2)}
                               <span className="text-sm font-normal text-gray-600 ml-2">
-                                ${item.price.toFixed(2)} each
+                                ${(item.price || 0).toFixed(2)} each
                               </span>
                             </div>
 
@@ -238,7 +233,7 @@ export default function ShoppingCartPage() {
                                 <Minus size={16} />
                               </button>
                               <span className="px-4 py-2 font-medium min-w-12 text-center">
-                                {item.quantity}
+                                {item.quantity || 1}
                               </span>
                               <button
                                 onClick={() => handleItemIncrement(item)}

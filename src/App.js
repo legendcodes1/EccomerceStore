@@ -6,6 +6,7 @@ import Header from "./Components/Header";
 import Homepage from "./Pages/Homepage";
 import ShoppingCart from "./Pages/ShoppingCart";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AdminDashboard from "./Components/AdminDashboard";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/shopping" element={<ShoppingCart />} />
+            <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </div>
       </CartProvider>
