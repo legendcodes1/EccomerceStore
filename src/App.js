@@ -3,10 +3,12 @@ import { CartProvider } from "./Context/CartContext";
 import ProductDetails from "./Pages/ProductsDetails";
 import Products from "./Pages/Products";
 import Header from "./Components/Header";
+import LoginPage from "./Components/LoginPage";
 import Homepage from "./Pages/Homepage";
 import ShoppingCart from "./Pages/ShoppingCart";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AdminDashboard from "./Components/AdminDashboard";
+import SignUp from "./Components/SIgnUp";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
         <div className="min-h-screen bg-gray-100 p-4">
           <Routes>
             <Route path="/" element={<Homepage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route path="/products" element={<Products />} />
             <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/shopping" element={<ShoppingCart />} />

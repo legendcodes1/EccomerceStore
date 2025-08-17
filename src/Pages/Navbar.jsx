@@ -9,7 +9,7 @@ import {
   Settings,
 } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../Context/CartContext";
 
 export default function Navbar() {
@@ -54,7 +54,7 @@ export default function Navbar() {
 
         {/* Search + Icons */}
         <div className="flex items-center space-x-4">
-          <div className="relative hidden sm:block">
+          {/* <div className="relative hidden sm:block">
             <Search
               size={20}
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -64,7 +64,7 @@ export default function Navbar() {
               placeholder="Search..."
               className="pl-10 pr-4 py-2 border rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-          </div>
+          </div> */}
 
           <button className="p-2">
             <Heart size={20} />
@@ -131,12 +131,12 @@ export default function Navbar() {
             </div>
           ) : (
             <div className="flex items-center space-x-2">
-              <button
-                onClick={() => setIsSignedIn(true)}
+              <Link
+                to="/login"
                 className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600"
               >
                 Sign In
-              </button>
+              </Link>
             </div>
           )}
         </div>
@@ -192,12 +192,12 @@ export default function Navbar() {
             </div>
           ) : (
             <div className="pt-4 border-t space-y-2">
-              <button
-                onClick={() => setIsSignedIn(true)}
+              <Link
+                to="/login"
                 className="block w-full text-left py-2 text-sm text-gray-700 hover:text-blue-600"
               >
                 Sign In
-              </button>
+              </Link>
             </div>
           )}
         </div>

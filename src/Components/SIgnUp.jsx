@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
 import { Link } from "react-router-dom";
-export default function LoginPage() {
+export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
     password: "",
-    rememberMe: false,
+    confirmPassword: "",
+    agreeToTerms: false,
   });
 
   const handleChange = (e) => {
@@ -19,8 +22,8 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Add your login logic here
-    console.log("Login data:", formData);
+    // Add your signup logic here
+    console.log("Sign up data:", formData);
   };
 
   return (
@@ -29,13 +32,36 @@ export default function LoginPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            Welcome Back
+            Create Account
           </h2>
-          <p className="text-gray-600">Sign in to your account</p>
+          <p className="text-gray-600">Join us and start shopping</p>
         </div>
 
-        {/* Login Form */}
+        {/* Sign Up Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name Field */}
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Full Name
+            </label>
+            <div className="relative">
+              <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                id="name"
+                name="name"
+                type="text"
+                required
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Enter your full name"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+              />
+            </div>
+          </div>
+
           {/* Email Field */}
           <div>
             <label
@@ -76,7 +102,7 @@ export default function LoginPage() {
                 required
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Enter your password"
+                placeholder="Create a password"
                 className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
               />
               <button
@@ -91,40 +117,83 @@ export default function LoginPage() {
                 )}
               </button>
             </div>
+            <p className="mt-1 text-xs text-gray-500">
+              Must be at least 8 characters
+            </p>
           </div>
 
-          {/* Remember Me & Forgot Password */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="rememberMe"
-                name="rememberMe"
-                type="checkbox"
-                checked={formData.rememberMe}
-                onChange={handleChange}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-              />
-              <label
-                htmlFor="rememberMe"
-                className="ml-2 text-sm text-gray-600"
-              >
-                Remember me
-              </label>
-            </div>
-            <button
-              type="button"
-              className="text-sm text-blue-600 hover:text-blue-500"
+          {/* Confirm Password Field */}
+          <div>
+            <label
+              htmlFor="confirmPassword"
+              className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Forgot password?
-            </button>
+              Confirm Password
+            </label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                required
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirm your password"
+                className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                {showConfirmPassword ? (
+                  <EyeOff className="w-5 h-5" />
+                ) : (
+                  <Eye className="w-5 h-5" />
+                )}
+              </button>
+            </div>
           </div>
 
-          {/* Sign In Button */}
+          {/* Terms and Conditions */}
+          <div className="flex items-start">
+            <input
+              id="agreeToTerms"
+              name="agreeToTerms"
+              type="checkbox"
+              required
+              checked={formData.agreeToTerms}
+              onChange={handleChange}
+              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+            />
+            <label
+              htmlFor="agreeToTerms"
+              className="ml-2 text-sm text-gray-600"
+            >
+              I agree to the{" "}
+              <button
+                type="button"
+                className="text-blue-600 hover:text-blue-500"
+              >
+                Terms of Service
+              </button>{" "}
+              and{" "}
+              <button
+                type="button"
+                className="text-blue-600 hover:text-blue-500"
+              >
+                Privacy Policy
+              </button>
+            </label>
+          </div>
+
+          {/* Sign Up Button */}
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors font-medium"
           >
-            Sign In
+            Create Account
           </button>
         </form>
 
@@ -140,32 +209,17 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Sign Up Link */}
+        {/* Sign In Link */}
         <div className="text-center">
           <p className="text-sm text-gray-600">
-            Don't have an account?{" "}
+            Already have an account?{" "}
             <Link
-              to="/signup"
+              to="/login"
               className="text-blue-600 hover:text-blue-500 font-medium"
             >
-              Sign up
+              Sign in
             </Link>
           </p>
-        </div>
-
-        {/* Demo Credentials */}
-        <div className="mt-6 p-3 bg-gray-50 rounded-lg">
-          <p className="text-xs text-gray-600 text-center mb-2">
-            Demo Credentials:
-          </p>
-          <div className="text-xs text-gray-500 space-y-1">
-            <p>
-              <strong>Admin:</strong> admin@store.com / admin123
-            </p>
-            <p>
-              <strong>User:</strong> user@store.com / user123
-            </p>
-          </div>
         </div>
       </div>
     </div>
